@@ -23,11 +23,22 @@ var albums = []album{
 
 func main() {
 	router := gin.Default()
+
+	// GET routes
+	router.GET("/", rootHandler)
 	router.GET("/albums", getAlbums)
-	router.POST("/albums", postAlbums)
 	router.GET("/albums/:id", getAlbumByID)
 
+	// POST routes
+	router.POST("/albums", postAlbums)
+
+	// Start and run the server
 	router.Run("localhost:8080")
+}
+
+// returns a simple message to the client
+func rootHandler(context *gin.Context) {
+	context.String(http.StatusOK, "Welcome to the album server")
 }
 
 // returns all albums stored on the albums database
@@ -50,7 +61,7 @@ func postAlbums(context *gin.Context) {
 	context.IndentedJSON(http.StatusCreated, newAlbum)
 }
 
-// getAlbumByID locates the album whose ID value matches the id
+// locates the album whose ID value matches the id
 // parameter sent by the client, then returns that album as a response.
 func getAlbumByID(c *gin.Context) {
 	id := c.Param("id")
@@ -58,10 +69,10 @@ func getAlbumByID(c *gin.Context) {
 	// Loop over the list of albums, looking for
 	// an album whose ID value matches the parameter.
 	for _, a := range albums {
-			if a.ID == id {
-					c.IndentedJSON(http.StatusOK, a)
-					return
-			}
+		if a.ID == id {
+			c.IndentedJSON(http.StatusOK, a)
+			return
+		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
 }
