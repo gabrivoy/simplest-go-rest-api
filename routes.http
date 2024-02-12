@@ -1,0 +1,27 @@
+### Should return a simple message
+# @name base_request
+GET http://localhost:8080
+
+### Should return all albums
+# @name get_albums
+GET http://localhost:8080/albums
+
+### Should return a valid album
+# @name get_specific_album
+GET http://localhost:8080/albums/1
+
+### Should return a not found
+# @name get_specific_album_error
+GET http://localhost:8080/albums/10
+
+### 
+# @name create_album
+POST http://localhost:8080/albums
+Content-Type: application/json
+
+{
+    "id": "4",
+    "title": "New Album",
+    "artist": "New Artist",
+    "price": 10.99
+}
